@@ -1,28 +1,33 @@
 const fs = require('fs');
 
 exports.lggrr = function(options) {
+  options = options || {};
   this.path = options.path || "./";
   this.timeStamp = options.timeStamp || true;
   this.console = options.console || true;
 
-  this.log = function(message) {
+  this.log = function(message, context) {
     if (this.console) console.log(message);
-    this.writeToFile("LOG", message);
+    if (context == null) this.writeToFile("LOG", message);
+    else this.writeToFile("LOG", `[${context}] ${message}`);
   };
 
-  this.info = function(message) {
+  this.info = function(message, context) {
     if (this.console) console.info(message);
-    this.writeToFile("INFO", message);
+    if (context == null) this.writeToFile("INFO", message);
+    else this.writeToFile("INFO", `[${context}] ${message}`);
   };
 
-  this.warn = function(message) {
+  this.warn = function(message, context) {
     if (this.console) console.warn(message);
-    this.writeToFile("WARNING", message);
+    if (context == null) this.writeToFile("WARNING", message);
+    else this.writeToFile("WARNING", `[${context}] ${message}`);
   };
 
-  this.error = function(message) {
+  this.error = function(message, context) {
     if (this.console) console.error(message);
-    this.writeToFile("ERROR", message);
+    if (context == null) this.writeToFile("ERROR", message);
+    else this.writeToFile("ERROR", `[${context}] ${message}`);
   };
 
   this.writeToFile = function(prefix, message) {
